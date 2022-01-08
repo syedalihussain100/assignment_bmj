@@ -1,17 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import "./App.css";
 
 function App() {
   const [todo, setTodo] = useState([]);
   const [input, setInput] = useState('')
+  const myref = useRef(null)
 
   const handleSubmit = (e) => {
     e.preventDefault()
   }
 
+
+  useEffect(() => {
+    myref.current.focus();
+  }, [])
   const mytodo = () => {
-    setTodo([...todo, input])
-    setInput("")
+    if (!input) {
+      alert('please fill todo')
+    } else {
+      setTodo([...todo, input])
+      setInput("")
+    }
 
   }
 
@@ -33,7 +42,7 @@ function App() {
         <div className='one'>
           <form onSubmit={handleSubmit}>
             <input type="text" placeholder='Enter Your Name!' value={input} onChange={(e) => setInput(e.target.value)}
-
+              ref={myref}
             />
 
             <button onClick={mytodo}>Add Todo</button>
